@@ -10,7 +10,7 @@ pipeline {
             stage('Clean') {
                 steps {
                 dir('apigee-test') {
-                    bat "mvn clean"
+                    sh "mvn clean"
                 }
             }
         }
@@ -19,7 +19,7 @@ pipeline {
                 steps {
                     dir('apigee-test') {
                     println "Predeployment of Caches "
-                    bat "mvn apigee-config:caches " +
+                    sh "mvn apigee-config:caches " +
                             "    -Papigee -Denv=${params.apigee_env} -Dorg=${params.apigee_org} " +
                             "    -Dusername=${params.apigee_user} " +
                             "    -Dpassword=${params.apigee_pwd}"
@@ -32,7 +32,7 @@ pipeline {
                 steps {
                     dir('apigee-test') {
                     println "Predeployment of targetservers "
-                    bat "mvn apigee-config:targetservers " +
+                    sh "mvn apigee-config:targetservers " +
                             "    -Papigee -Denv=${params.apigee_env} -Dorg=${params.apigee_org} " +
                             "    -Dusername=${params.apigee_user} " +
                             "    -Dpassword=${params.apigee_pwd}"
@@ -45,7 +45,7 @@ pipeline {
                 steps {
                     dir('apigee-test') {
                     println "Predeployment of keyvaluemaps  "
-                    bat "mvn apigee-config:keyvaluemaps " +
+                    sh "mvn apigee-config:keyvaluemaps " +
                             "    -Papigee -Denv=${params.apigee_env} -Dorg=${params.apigee_org} " +
                             "    -Dusername=${params.apigee_user} " +
                             "    -Dpassword=${params.apigee_pwd}"
@@ -57,7 +57,7 @@ pipeline {
             stage('Build proxy bundle') {
                 steps {
                     dir('apigee-test') {
-                    bat "mvn package -Papigee -Denv=${params.apigee_env} -Dorg=${params.apigee_org}"
+                    sh "mvn package -Papigee -Denv=${params.apigee_env} -Dorg=${params.apigee_org}"
 
                 }
             }
@@ -66,7 +66,7 @@ pipeline {
             stage('Deploy proxy bundle') {
                 steps {
                     dir('apigee-test') {
-                    bat "mvn apigee-enterprise:deploy -Papigee -Denv=${params.apigee_env} -Dorg=${params.apigee_org} -Dusername=${params.apigee_user} -Dpassword=${params.apigee_pwd}"
+                    sh "mvn apigee-enterprise:deploy -Papigee -Denv=${params.apigee_env} -Dorg=${params.apigee_org} -Dusername=${params.apigee_user} -Dpassword=${params.apigee_pwd}"
                 }
             }
         }
